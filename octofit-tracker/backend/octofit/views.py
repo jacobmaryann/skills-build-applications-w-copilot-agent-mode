@@ -5,9 +5,14 @@ from rest_framework.response import Response
 from .serializers import UserSerializer, TeamSerializer, ActivitySerializer, LeaderboardSerializer, WorkoutSerializer
 from .models import User, Team, Activity, Leaderboard, Workout
 
+def get_base_url(request):
+    if request.get_host().startswith("localhost"):
+        return "http://localhost:8000/"
+    return "https://humble-memory-rqjjqp45pgrhpr4j-8000.app.github.dev/"
+
 @api_view(['GET'])
 def api_root(request, format=None):
-    base_url = request.build_absolute_uri('/')
+    base_url = get_base_url(request)
     return Response({
         'users': base_url + 'api/users/',
         'teams': base_url + 'api/teams/',
